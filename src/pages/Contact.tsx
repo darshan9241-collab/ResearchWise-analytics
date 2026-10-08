@@ -95,8 +95,8 @@ export default function Contact() {
   return (
     <>
       <Seo
-        title="Contact | Get Data Analysis Support | ResearchWise Analytics"
-        description="Contact ResearchWise Analytics for SPSS and R data analysis, biostatistics, sample size calculation, research methodology, review and publication support."
+        title="Contact | Get Research Support | ResearchWise Analytics"
+        description="Contact ResearchWise Analytics for research methodology, sample size calculation, data cleaning, SPSS and R data analysis, systematic and scoping reviews, manuscript and publication support."
       />
       <PageHero
         crumbs={[{ label: 'Home', to: '/' }, { label: 'Contact' }]}
@@ -219,7 +219,7 @@ export default function Contact() {
                   </div>
                 ) : (
                   <Button type="submit" size="lg" disabled={status === 'sending'} className="w-full sm:w-auto">
-                    <Send aria-hidden className="size-4" /> {status === 'sending' ? 'Sending…' : 'Get Data Analysis Support'}
+                    <Send aria-hidden className="size-4" /> {status === 'sending' ? 'Sending…' : 'Send Enquiry'}
                   </Button>
                 )}
                 <p className="text-sm text-muted">Fields marked * are required. Your details are used only to respond to your enquiry.</p>

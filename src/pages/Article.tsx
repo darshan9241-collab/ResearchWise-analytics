@@ -1,4 +1,4 @@
-import { ArrowLeft } from 'lucide-react'
+import { ArrowLeft, BookOpen } from 'lucide-react'
 import { Link, useParams } from 'react-router-dom'
 import { Seo } from '../components/layout/Seo'
 import { PageHero } from '../components/sections/PageHero'
@@ -30,7 +30,25 @@ export default function Article() {
             {article.body.map((b, i) => (
               <BlockView key={i} block={b} />
             ))}
-            <p className="mt-10 border-t border-line pt-6 text-sm text-muted">
+            <section aria-labelledby="sources-heading" className="mt-12 rounded-[var(--radius-card)] border border-line bg-cream/50 p-5 sm:p-6">
+              <h2 id="sources-heading" className="mt-0! mb-1! flex items-center gap-2 font-sans! text-base! font-semibold tracking-[0.1em] uppercase">
+                <BookOpen aria-hidden className="size-4 text-sage-700" /> Sources
+              </h2>
+              <p className="mb-4! text-sm text-muted">This article is based on the following published guidance and research.</p>
+              <ol className="list-decimal space-y-2 pl-5 text-[0.9375rem] marker:text-muted">
+                {article.sources.map((s) => (
+                  <li key={s.text} className="pl-1">
+                    {s.text}{' '}
+                    {s.url && (
+                      <a href={s.url} target="_blank" rel="noopener noreferrer" className="font-medium break-all text-navy underline underline-offset-2 hover:text-sage-700">
+                        {s.url.replace(/^https:\/\//, '')}
+                      </a>
+                    )}
+                  </li>
+                ))}
+              </ol>
+            </section>
+            <p className="mt-8 border-t border-line pt-6 text-sm text-muted">
               This article is general guidance. The right approach for your study depends on its design, data and objectives.
             </p>
             <Link to="/insights" className="mt-4 inline-flex min-h-11 items-center gap-2 font-semibold text-navy hover:underline">

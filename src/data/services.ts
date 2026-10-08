@@ -13,7 +13,6 @@ import {
 } from 'lucide-react'
 import type { ServiceSlug } from '../config/routes'
 
-export type ServiceTier = 'primary' | 'secondary'
 export type ServiceGroup = 'analysis' | 'design' | 'evidence' | 'publication'
 
 export interface Service {
@@ -21,7 +20,6 @@ export interface Service {
   title: string
   /** Short label for footers and dropdowns. */
   shortTitle: string
-  tier: ServiceTier
   group: ServiceGroup
   icon: LucideIcon
   summary: string
@@ -46,7 +44,6 @@ export const services: Service[] = [
     slug: 'spss-data-analysis',
     title: 'SPSS Data Analysis',
     shortTitle: 'SPSS Data Analysis',
-    tier: 'primary',
     group: 'analysis',
     icon: ListChecks,
     summary:
@@ -88,7 +85,6 @@ export const services: Service[] = [
     slug: 'r-data-analysis',
     title: 'R Data Analysis',
     shortTitle: 'R Data Analysis',
-    tier: 'primary',
     group: 'analysis',
     icon: Braces,
     summary: 'Statistical analysis and data visualization using R and RStudio.',
@@ -127,7 +123,6 @@ export const services: Service[] = [
     slug: 'data-cleaning',
     title: 'Data Cleaning & Coding',
     shortTitle: 'Data Cleaning & Coding',
-    tier: 'primary',
     group: 'analysis',
     icon: Layers,
     summary: 'Prepare your research dataset for accurate and reliable statistical analysis.',
@@ -168,7 +163,6 @@ export const services: Service[] = [
     slug: 'sample-size',
     title: 'Sample Size Calculation',
     shortTitle: 'Sample Size Calculation',
-    tier: 'primary',
     group: 'design',
     icon: Calculator,
     summary: 'Study-specific sample size calculation based on research objectives, study design and statistical requirements.',
@@ -208,7 +202,6 @@ export const services: Service[] = [
     slug: 'research-methodology',
     title: 'Research Methodology Support',
     shortTitle: 'Research Methodology',
-    tier: 'primary',
     group: 'design',
     icon: Compass,
     summary: 'Methodological guidance from research question to analysis plan.',
@@ -248,7 +241,6 @@ export const services: Service[] = [
     slug: 'systematic-review',
     title: 'Systematic Review Support',
     shortTitle: 'Systematic Reviews',
-    tier: 'secondary',
     group: 'evidence',
     icon: BookOpenCheck,
     summary: 'Structured support for systematic reviews and evidence synthesis.',
@@ -287,7 +279,6 @@ export const services: Service[] = [
     slug: 'scoping-review',
     title: 'Scoping Reviews',
     shortTitle: 'Scoping Reviews',
-    tier: 'secondary',
     group: 'evidence',
     icon: MapIcon,
     summary: 'Structured support for scoping reviews and evidence mapping.',
@@ -325,7 +316,6 @@ export const services: Service[] = [
     slug: 'manuscript-thesis',
     title: 'Manuscript & Thesis Support',
     shortTitle: 'Manuscript Support',
-    tier: 'secondary',
     group: 'publication',
     icon: FileText,
     summary: 'Professional support to improve the structure, clarity and methodological quality of research documents.',
@@ -364,7 +354,6 @@ export const services: Service[] = [
     slug: 'manuscript-publication',
     title: 'Manuscript Publication Support',
     shortTitle: 'Publication Support',
-    tier: 'secondary',
     group: 'publication',
     icon: Send,
     summary: 'End-to-end support to help prepare and submit research manuscripts for publication.',
@@ -402,7 +391,6 @@ export const services: Service[] = [
     slug: 'turnitin',
     title: 'Turnitin Similarity Checking',
     shortTitle: 'Turnitin',
-    tier: 'secondary',
     group: 'publication',
     icon: FileSearch,
     summary: 'Similarity checking and academic originality review using Turnitin.',
@@ -437,8 +425,13 @@ export const services: Service[] = [
   },
 ]
 
-export const primaryServices = services.filter((s) => s.tier === 'primary')
-export const secondaryServices = services.filter((s) => s.tier === 'secondary')
+/** Neutral topic labels (not a ranking). */
+export const groupLabels: Record<ServiceGroup, string> = {
+  analysis: 'Data analysis',
+  design: 'Study design',
+  evidence: 'Evidence synthesis',
+  publication: 'Publication support',
+}
 
 export function getService(slug: string): Service | undefined {
   return services.find((s) => s.slug === slug)

@@ -27,6 +27,16 @@ export const ARTICLE_SLUGS = [
   'common-errors-in-statistical-analysis',
   'how-to-present-regression-results',
   'publication-ready-graphs',
+  'how-to-report-spss-output',
+  'reproducible-analysis-in-r',
+  'p-values-and-confidence-intervals',
+  'handling-missing-data',
+  'choosing-a-study-design',
+  'why-sample-size-calculation-matters',
+  'systematic-review-steps',
+  'scoping-review-or-systematic-review',
+  'choosing-a-journal',
+  'understanding-turnitin-similarity-report',
 ] as const
 
 export type ArticleSlug = (typeof ARTICLE_SLUGS)[number]

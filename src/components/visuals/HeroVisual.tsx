@@ -1,5 +1,5 @@
 import { StatCard } from '../ui/StatCard'
-import { BoxPlotViz, ForestViz } from '../charts/Charts'
+import { ForestViz } from '../charts/Charts'
 import { OutputTable, logisticRows } from './Windows'
 
 /**
@@ -57,14 +57,28 @@ export function HeroVisual() {
 
       {/* Box plot + summary statistic, overlapping only the laptop base */}
       <div className="relative z-20 -mt-5 hidden items-end justify-between gap-4 px-2 sm:flex">
-        <div aria-hidden className="w-[46%] rounded-[6px] border border-line bg-white p-2.5 shadow-[0_18px_40px_-20px_rgb(22_37_61/0.45)]">
-          <p className="px-1 text-[0.6875rem] font-semibold text-navy">BMI by group</p>
-          <BoxPlotViz />
+        <div aria-hidden className="w-[46%] rounded-[6px] border border-line bg-white p-3 shadow-[0_18px_40px_-20px_rgb(22_37_61/0.45)]">
+          <p className="text-[0.6875rem] font-semibold text-navy">Systematic review · PRISMA flow</p>
+          <ol className="mt-2 space-y-1 font-mono text-[0.6875rem] text-charcoal">
+            {[
+              ['Records identified', '1,248'],
+              ['Screened', '836'],
+              ['Full texts assessed', '112'],
+              ['Studies included', '24'],
+            ].map(([k, v], i, arr) => (
+              <li key={k}>
+                <div className={`flex justify-between rounded-[3px] px-2 py-1 ${i === arr.length - 1 ? 'bg-navy text-white' : 'bg-cream'}`}>
+                  <span>{k}</span>
+                  <span>{v}</span>
+                </div>
+                {i < arr.length - 1 && <div className="ml-4 h-1.5 w-px bg-sage-700" />}
+              </li>
+            ))}
+          </ol>
         </div>
         <StatCard className="mb-4" label="Smoking · adjusted" value="OR 2.10" detail="95% CI 1.32–3.35" />
       </div>
 
-      <p className="relative z-10 mt-4 text-center text-[0.75rem] text-muted sm:text-right">Illustrative output — synthetic example data</p>
     </div>
   )
 }

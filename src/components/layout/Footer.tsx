@@ -2,7 +2,7 @@ import { Instagram, Mail, MessageCircle } from 'lucide-react'
 import type { ReactNode } from 'react'
 import { Link } from 'react-router-dom'
 import { BRAND, CONTACT_EMAIL, INSTAGRAM_URL } from '../../config/site'
-import { primaryServices, secondaryServices } from '../../data/services'
+import { services } from '../../data/services'
 import { mailtoUrl, whatsappUrl } from '../../lib/contact'
 import { Logo } from './Logo'
 import { NAV_LINKS } from './Navbar'
@@ -29,16 +29,16 @@ export function Footer() {
           ))}
         </FooterCol>
 
-        <FooterCol title="Primary Services">
-          {primaryServices.slice(0, 4).map((s) => (
+        <FooterCol title="Data & Methods">
+          {services.slice(0, 5).map((s) => (
             <FooterLink key={s.slug} to={`/services/${s.slug}`}>
               {s.shortTitle}
             </FooterLink>
           ))}
         </FooterCol>
 
-        <FooterCol title="Additional Services">
-          {secondaryServices.map((s) => (
+        <FooterCol title="Reviews & Publication">
+          {services.slice(5).map((s) => (
             <FooterLink key={s.slug} to={`/services/${s.slug}`}>
               {s.shortTitle}
             </FooterLink>

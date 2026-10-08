@@ -16,7 +16,7 @@ interface Props {
 export function CTA({
   title,
   text,
-  primary = { label: 'Get Data Analysis Support', to: '/contact' },
+  primary = { label: 'Get Research Support', to: '/contact' },
   whatsapp = true,
   tone = 'navy',
 }: Props) {

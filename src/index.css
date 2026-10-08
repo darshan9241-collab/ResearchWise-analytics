@@ -169,3 +169,45 @@
     animation-iteration-count: 1 !important;
   }
 }
+
+/* ─── Popup dialog ─────────────────────────────────────────────── */
+.rw-modal {
+  margin: auto;
+  width: min(680px, calc(100vw - 32px));
+  max-height: calc(100dvh - 32px);
+  padding: 0;
+  border: 0;
+  border-radius: 8px;
+  background: var(--color-white);
+  color: var(--color-charcoal);
+  overflow-y: auto;
+  box-shadow: 0 40px 80px -30px rgb(22 37 61 / 0.6);
+}
+.rw-modal[open] {
+  animation: modal-in 0.28s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+.rw-modal::backdrop {
+  background: rgb(22 37 61 / 0.55);
+  backdrop-filter: blur(3px);
+}
+.rw-modal[open]::backdrop {
+  animation: backdrop-in 0.28s ease;
+}
+html:has(.rw-modal[open]) {
+  overflow: hidden;
+}
+@keyframes modal-in {
+  from {
+    opacity: 0;
+    transform: translateY(16px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes backdrop-in {
+  from {
+    opacity: 0;
+  }
+}

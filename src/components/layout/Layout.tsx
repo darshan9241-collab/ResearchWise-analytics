@@ -2,6 +2,7 @@ import { MessageCircle } from 'lucide-react'
 import { Suspense, useEffect } from 'react'
 import { Outlet, useLocation } from 'react-router-dom'
 import { whatsappUrl } from '../../lib/contact'
+import { ChatAssistant } from '../assistant/ChatAssistant'
 import { Footer } from './Footer'
 import { Navbar } from './Navbar'
 
@@ -26,6 +27,7 @@ export function Layout() {
       </main>
       <Footer />
       <StickyWhatsApp />
+      <ChatAssistant />
     </>
   )
 }

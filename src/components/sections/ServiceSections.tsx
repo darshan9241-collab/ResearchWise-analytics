@@ -2,7 +2,7 @@ import { ArrowRight } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { cleaningList, methodologyList, principles, sampleSizeList } from '../../data/analysis'
 import { articles } from '../../data/articles'
-import { getService, primaryServices, secondaryServices } from '../../data/services'
+import { getService, services } from '../../data/services'
 import { ArticleCard } from '../ui/ArticleCard'
 import { Button } from '../ui/Button'
 import { Reveal } from '../ui/Reveal'
@@ -131,40 +131,26 @@ export function MethodologySection() {
   )
 }
 
-// ─── All services (hierarchy: SPSS & R featured → other primary → secondary) ─
+// ─── All services — one grid, equal weight ──────────────────────────────────
 export function ServicesSection({ headingAs = 'h2' }: { headingAs?: 'h1' | 'h2' }) {
-  const [spss, r, ...restPrimary] = primaryServices
   return (
     <section className="py-20 sm:py-24" id="services">
       <div className="container-rw">
         <SectionHeading
           as={headingAs}
           eyebrow="Services"
-          title="Data Analysis & Research Support Services"
-          lead="Data analysis and biostatistics at the core, supported by study design, evidence synthesis and publication services."
+          title="Our Research Support Services"
+          lead="Ten specialised services covering the full research process — from study design and data analysis to evidence synthesis and publication."
         />
-
-        <h3 className="mt-14 mb-5 flex items-center gap-3 text-sm font-semibold tracking-[0.12em] text-navy uppercase">
-          <span className="h-px w-8 bg-navy" aria-hidden /> Data analysis &amp; biostatistics
-        </h3>
-        <div className="grid gap-5 lg:grid-cols-2">
-          <ServiceCard service={spss} index={0} variant="feature" />
-          <ServiceCard service={r} index={1} variant="feature" />
-        </div>
-        <div className="mt-5 grid gap-5 md:grid-cols-3">
-          {restPrimary.map((s, i) => (
-            <ServiceCard key={s.slug} service={s} index={i + 2} />
+        <ul className="mt-12 grid gap-5 md:grid-cols-2">
+          {services.map((s, i) => (
+            <li key={s.slug}>
+              <Reveal delay={(i % 2) * 80} className="h-full">
+                <ServiceCard service={s} index={i} />
+              </Reveal>
+            </li>
           ))}
-        </div>
-
-        <h3 className="mt-16 mb-2 flex items-center gap-3 text-sm font-semibold tracking-[0.12em] text-muted uppercase">
-          <span className="h-px w-8 bg-line" aria-hidden /> Evidence &amp; academic services
-        </h3>
-        <div className="grid gap-x-8 gap-y-6 sm:grid-cols-2 lg:grid-cols-3">
-          {secondaryServices.map((s, i) => (
-            <ServiceCard key={s.slug} service={s} index={i + 5} variant="compact" />
-          ))}
-        </div>
+        </ul>
       </div>
     </section>
   )

@@ -12,7 +12,7 @@ import { Reveal } from '../components/ui/Reveal'
 import { SectionHeading } from '../components/ui/SectionHeading'
 import { Pipeline } from '../components/visuals/Workflow'
 import { DatasetGrid, RStudioWindow, SpssWindow } from '../components/visuals/Windows'
-import { getService, services, type Service } from '../data/services'
+import { getService, groupLabels, services, type Service } from '../data/services'
 import { whatsappForService } from '../lib/contact'
 import NotFound from './NotFound'
 
@@ -21,7 +21,6 @@ export default function ServicePage() {
   const service = getService(slug)
   if (!service) return <NotFound />
 
-  const isPrimary = service.tier === 'primary'
   const extras = EXTRAS[service.slug]
 
   return (
@@ -29,7 +28,7 @@ export default function ServicePage() {
       <Seo title={service.seoTitle} description={service.seoDescription} />
       <PageHero
         crumbs={[{ label: 'Home', to: '/' }, { label: 'Services', to: '/services' }, { label: service.title }]}
-        eyebrow={isPrimary ? 'Data analysis & biostatistics' : 'Evidence & academic services'}
+        eyebrow={groupLabels[service.group]}
         title={service.headline}
         subtitle={service.subtitle}
         actions={
@@ -76,7 +75,7 @@ export default function ServicePage() {
       {/* Approach grid */}
       <section className="border-t border-line bg-white py-16 sm:py-20">
         <div className="container-rw">
-          <SectionHeading eyebrow="Methodology" title={isPrimary ? 'How We Approach It' : 'Areas of Support'} />
+          <SectionHeading eyebrow="Methodology" title="How We Approach It" />
           <div className="mt-10 grid gap-px overflow-hidden rounded-[var(--radius-card)] border border-line bg-line sm:grid-cols-2 lg:grid-cols-4">
             {service.approach.map((a, i) => (
               <Reveal key={a.title} delay={(i % 4) * 60} className="bg-white p-6">
@@ -108,7 +107,7 @@ export default function ServicePage() {
       <RelatedServices current={service} />
 
       <CTA
-        title={isPrimary ? 'Have a Dataset or Research Question?' : 'Discuss Your Research'}
+        title="Discuss Your Research"
         text="Tell us what you are working on and we will guide you through the appropriate next step."
         primary={{ label: service.ctaLabel, to: `/contact?service=${encodeURIComponent(service.title)}` }}
       />
@@ -117,7 +116,8 @@ export default function ServicePage() {
 }
 
 function RelatedServices({ current }: { current: Service }) {
-  const related = services.filter((s) => s.slug !== current.slug && (s.group === current.group || s.tier === 'primary')).slice(0, 4)
+  const others = services.filter((s) => s.slug !== current.slug)
+  const related = [...others.filter((s) => s.group === current.group), ...others.filter((s) => s.group !== current.group)].slice(0, 4)
   return (
     <section className="py-16 sm:py-20">
       <div className="container-rw">

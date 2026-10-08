@@ -78,7 +78,7 @@ export function Navbar() {
             <span className="hidden xl:inline">Chat on WhatsApp</span>
             <span className="sr-only xl:hidden">Chat on WhatsApp</span>
           </a>
-          <Button to="/contact">Get Data Analysis Support</Button>
+          <Button to="/contact">Get Research Support</Button>
         </div>
 
         <button
@@ -111,7 +111,7 @@ export function Navbar() {
             </ul>
             <div className="mt-6 flex flex-col gap-3">
               <Button to="/contact" size="lg">
-                Get Data Analysis Support
+                Get Research Support
               </Button>
               <Button href={whatsappUrl()} variant="whatsapp" size="lg">
                 <MessageCircle aria-hidden className="size-4" /> Chat on WhatsApp

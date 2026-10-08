@@ -33,3 +33,4 @@ All contact details live in **`src/config/site.ts`**. Each can be overridden in 
 ## Deploying
 
 It is a single-page app: the host must serve `index.html` for all routes. `public/_redirects` (Netlify) and `vercel.json` (Vercel) are included.
+
