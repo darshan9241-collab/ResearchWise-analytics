@@ -11,7 +11,7 @@ import { mailtoUrl, whatsappUrl } from '../lib/contact'
 
 type Fields = { name: string; email: string; phone: string; area: string; service: string; message: string }
 type Errors = Partial<Record<keyof Fields, string>>
-type Status = 'idle' | 'sending' | 'sent' | 'error' | 'handoff'
+type Status = 'idle' | 'sending' | 'sent' | 'error' | 'opened'
 
 const serviceOptions = services.map((s) => s.title)
 const emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
@@ -56,27 +56,46 @@ export default function Contact() {
   const [errors, setErrors] = useState<Errors>({})
   const [status, setStatus] = useState<Status>('idle')
   const [honeypot, setHoneypot] = useState('')
+  const [channel, setChannel] = useState<'whatsapp' | 'email'>('whatsapp')
 
   const set = (k: keyof Fields) => (v: string) => {
     setF((p) => ({ ...p, [k]: v }))
     if (errors[k]) setErrors((p) => ({ ...p, [k]: undefined }))
   }
 
-  async function onSubmit(e: FormEvent) {
-    e.preventDefault()
+  /** Validates the form and focuses the first invalid field. */
+  function isValid(): boolean {
     const errs = validate(f)
     setErrors(errs)
     const first = Object.keys(errs)[0]
     if (first) {
       document.querySelector<HTMLElement>(`[name="${first}"]`)?.focus()
-      return
+      return false
     }
-    if (honeypot) return // bot
+    return !honeypot // bots fill the hidden field
+  }
 
+  /** No form service connected: open WhatsApp or the email app with the enquiry pre-filled. */
+  function sendVia(via: 'whatsapp' | 'email') {
+    if (!isValid()) return
+    const text = summary(f)
+    if (via === 'whatsapp') {
+      window.open(whatsappUrl(text), '_blank', 'noopener,noreferrer')
+    } else {
+      const url = mailtoUrl(`Research enquiry: ${f.service}`, text)
+      if (url) window.location.href = url
+    }
+    setChannel(via)
+    setStatus('opened')
+  }
+
+  async function onSubmit(e: FormEvent) {
+    e.preventDefault()
     if (!FORM_ENDPOINT) {
-      setStatus('handoff')
+      sendVia('whatsapp')
       return
     }
+    if (!isValid()) return
     setStatus('sending')
     try {
       const res = await fetch(FORM_ENDPOINT, {
@@ -202,25 +221,32 @@ export default function Contact() {
                   </p>
                 )}
 
-                {status === 'handoff' ? (
-                  <div role="status" className="rounded-[4px] border border-sage-300 bg-sage-100 p-5">
-                    <p className="font-semibold text-navy">Online form submission is not yet connected.</p>
-                    <p className="mt-1 text-[0.9375rem] text-charcoal">Your enquiry has not been sent. Send it with your details already filled in:</p>
-                    <div className="mt-4 flex flex-col gap-3 sm:flex-row">
-                      <Button href={whatsappUrl(summary(f))}>
-                        <MessageCircle aria-hidden className="size-4" /> Send via WhatsApp
-                      </Button>
-                      {mailtoUrl(`Research enquiry: ${f.service}`, summary(f)) && (
-                        <Button href={mailtoUrl(`Research enquiry: ${f.service}`, summary(f))!} variant="secondary">
-                          <Mail aria-hidden className="size-4" /> Send via email
-                        </Button>
-                      )}
-                    </div>
-                  </div>
-                ) : (
+                {FORM_ENDPOINT ? (
                   <Button type="submit" size="lg" disabled={status === 'sending'} className="w-full sm:w-auto">
                     <Send aria-hidden className="size-4" /> {status === 'sending' ? 'Sending…' : 'Send Enquiry'}
                   </Button>
+                ) : (
+                  <div>
+                    <p className="mb-3 text-[0.9375rem] font-semibold text-navy">Send your enquiry via</p>
+                    <div className="flex flex-col gap-3 sm:flex-row">
+                      <Button size="lg" onClick={() => sendVia('whatsapp')} className="w-full sm:w-auto">
+                        <MessageCircle aria-hidden className="size-4" /> WhatsApp
+                      </Button>
+                      {mail && (
+                        <Button size="lg" variant="secondary" onClick={() => sendVia('email')} className="w-full sm:w-auto">
+                          <Mail aria-hidden className="size-4" /> Email
+                        </Button>
+                      )}
+                    </div>
+                    {status === 'opened' && (
+                      <p role="status" className="mt-3 flex items-start gap-2 text-[0.9375rem] text-sage-700">
+                        <CheckCircle2 aria-hidden className="mt-0.5 size-4 shrink-0" />
+                        {channel === 'whatsapp'
+                          ? 'WhatsApp has opened with your enquiry filled in — just tap send.'
+                          : 'Your email app has opened with your enquiry filled in — just press send.'}
+                      </p>
+                    )}
+                  </div>
                 )}
                 <p className="text-sm text-muted">Fields marked * are required. Your details are used only to respond to your enquiry.</p>
               </form>
