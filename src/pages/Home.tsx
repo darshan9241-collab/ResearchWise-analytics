@@ -16,8 +16,8 @@ import { Button } from '../components/ui/Button'
 import { CTA } from '../components/ui/CTA'
 import { HeroVisual } from '../components/visuals/HeroVisual'
 import { WhatWeDoSection } from '../components/sections/WhatWeDoSection'
+import { ServiceRotator } from '../components/ui/ServiceRotator'
 import { StartPrompt } from '../components/ui/StartPrompt'
-import { services } from '../data/services'
 import { whatsappUrl } from '../lib/contact'
 
 const PILLARS = [
@@ -56,21 +56,7 @@ export default function Home() {
                 <MessageCircle aria-hidden className="size-4" /> Chat on WhatsApp
               </Button>
             </div>
-            <nav aria-label="Our services" className="mt-9">
-              <p className="text-xs font-semibold tracking-[0.12em] text-muted uppercase">Our 10 services</p>
-              <ul className="mt-3 flex flex-wrap gap-2">
-                {services.map((sv) => (
-                  <li key={sv.slug}>
-                    <Link
-                      to={`/services/${sv.slug}`}
-                      className="inline-flex min-h-9 items-center rounded-full border border-navy/15 bg-white/70 px-3 text-[0.8125rem] font-medium text-navy transition-colors hover:border-navy hover:bg-white"
-                    >
-                      {sv.shortTitle}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </nav>
+            <ServiceRotator />
           </div>
           <div className="animate-fade-up [animation-delay:150ms]">
             <HeroVisual />

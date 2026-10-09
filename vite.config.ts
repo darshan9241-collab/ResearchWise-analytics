@@ -31,5 +31,8 @@ export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), 'VITE_')
   return {
     plugins: [react(), tailwindcss(), seoFiles(env.VITE_SITE_URL ?? '')],
+    // Local preview on other devices: listen on the network and allow VS Code port-forwarding URLs.
+    server: { host: true, allowedHosts: ['.devtunnels.ms'] },
+    preview: { host: true, allowedHosts: ['.devtunnels.ms'] },
   }
 })

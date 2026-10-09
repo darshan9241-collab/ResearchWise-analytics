@@ -211,3 +211,42 @@ html:has(.rw-modal[open]) {
     opacity: 0;
   }
 }
+
+/* ─── Service wheel (hero) ───────────────────────────────────── */
+.rw-ring {
+  stroke-dashoffset: var(--rw-c);
+  animation-name: rw-ring;
+  animation-timing-function: linear;
+  animation-fill-mode: both;
+}
+@keyframes rw-ring {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+.rw-pop {
+  animation: rw-pop 0.55s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+@keyframes rw-pop {
+  from {
+    opacity: 0;
+    transform: scale(0.6) rotate(-12deg);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.rw-fade {
+  animation: rw-fade 0.5s ease both;
+}
+@keyframes rw-fade {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
